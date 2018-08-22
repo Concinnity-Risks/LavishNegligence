@@ -12,7 +12,8 @@
 
 import shodan
 import json
-from pybloom_live import BloomFilter
+import datetime
+#from pybloom_live import BloomFilter
 
 def pretty(d, indent=0):
    for key, value in d.items():
@@ -24,27 +25,27 @@ def pretty(d, indent=0):
       else:
         print('\t' * (indent+1) + str(value))
 
-print("Constructing bloomfilter...")
-bf = BloomFilter(4000000000, 0.001)
+#print("Constructing bloomfilter...")
+#bf = BloomFilter(4000000000, 0.001)
 
 # Configuration
 API_KEY = ""
 # Open a file
 print("Preparing graphs...")
-graph = open("Cert-Graph.csv", "w")
+graph = open(datetime.datetime.today().strftime('%Y-%m-%d')+"-Cert-Graph.csv", "w")
 graph.write("Source,Target,Expired,IssuedDate,ExpiryDate,Version,SignatureAlgorithm,KeyType,Bits\n")
 print("Initialising variables...")
 # Setup the api
 api = shodan.Shodan(API_KEY)
 #iteration counter
 n = 0
-unique = 0
+#unique = 0
 print('Listening for certs...')
 for banner in api.stream.ports([443, 8443]):
     #pretty(banner)
-    if 'ssl' in banner:
+    if 'ssl' in banner and 'cert' in banner['ssl']:
         n += 1
-        #pretty(banner['ssl']['cert'])
+        pretty(banner['ssl']['cert'])
         if n >= 100:
             # Close opened file
             graph.close()
