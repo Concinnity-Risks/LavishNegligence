@@ -29,7 +29,7 @@ def pretty(d, indent=0):
 #bf = BloomFilter(4000000000, 0.001)
 
 # Configuration
-API_KEY = "Vljqpo0npsoY2ITMe1Fapm0noazG8LR9"
+API_KEY = ""
 
 # Open a file
 print("Preparing graphs...")
